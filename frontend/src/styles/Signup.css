@@ -1,0 +1,17 @@
+/* ==========================================================
+   SIGNUP PAGE STYLES
+   Signup reuses the ".auth-page" / ".auth-card" / ".auth-form"
+   styles defined in Login.css. This file only adds anything
+   specific to the Signup page, like the error message style.
+========================================================== */
+@import "./Login.css";
+
+.auth-error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}

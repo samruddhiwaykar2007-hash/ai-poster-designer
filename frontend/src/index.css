@@ -1,0 +1,245 @@
+/* ==========================================================
+   GLOBAL STYLES & CSS VARIABLES — DARK THEME
+========================================================== */
+:root {
+  --color-primary: #7c6cff;
+  --color-secondary: #a78bfa;
+  --color-accent: #22d3ee;
+  --color-text: #f0f0f5;
+  --color-text-light: #a1a1b5;
+  --color-bg: #121218;
+  --color-bg-soft: #1a1a24;
+  --color-border: #2e2e3a;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --gradient-primary: linear-gradient(135deg, #7c6cff 0%, #22d3ee 100%);
+  --gradient-soft: linear-gradient(180deg, #1a1a24 0%, #15151d 100%);
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.35s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", "Poppins", sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================================
+   GLOBAL BUTTON STYLES — SKY BLUE DEFAULT
+========================================================== */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  background-color: var(--color-accent);
+  color: #0a0a0f;
+  font-weight: 600;
+  padding: 10px 20px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Primary "call to action" buttons keep the gradient look */
+.btn-primary,
+.create-poster-btn,
+[class*="generate"],
+[class*="submit"],
+[class*="signup"] {
+  background: var(--gradient-primary) !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover,
+.create-poster-btn:hover,
+[class*="generate"]:hover,
+[class*="submit"]:hover,
+[class*="signup"]:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================
+   GLOBAL CARD / BOX OVERRIDE
+   Catches white cards anywhere: Home, Login, Dashboard, etc.
+========================================================== */
+div[class*="card"],
+div[class*="box"],
+div[class*="feature"],
+div[class*="panel"],
+div[class*="section"] {
+  background-color: var(--color-bg-soft) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-medium);
+}
+
+div[class*="card"]:hover,
+div[class*="box"]:hover,
+div[class*="feature"]:hover,
+div[class*="panel"]:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent) !important;
+  transform: translateY(-2px);
+}
+
+/* Keep text inside cards readable */
+div[class*="card"] h1, div[class*="card"] h2, div[class*="card"] h3,
+div[class*="card"] h4, div[class*="card"] p, div[class*="card"] span,
+div[class*="box"] h1, div[class*="box"] h2, div[class*="box"] h3,
+div[class*="box"] h4, div[class*="box"] p, div[class*="box"] span,
+div[class*="feature"] h1, div[class*="feature"] h2, div[class*="feature"] h3,
+div[class*="feature"] h4, div[class*="feature"] p, div[class*="feature"] span {
+  color: var(--color-text) !important;
+}
+
+/* Icon circles inside feature cards - sky blue tint background */
+div[class*="icon"] {
+  background-color: rgba(34, 211, 238, 0.15) !important;
+}
+
+/* ==========================================================
+   FORM INPUTS — dark theme (login/signup/poster form fields)
+========================================================== */
+input, textarea, select {
+  background-color: var(--color-bg-soft);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--color-text-light);
+}
+
+/* ==========================================================
+   ADDITIONAL CATCH-ALL — activity items, FAQ boxes, list items
+========================================================== */
+div[class*="item"],
+div[class*="activity"],
+div[class*="faq"],
+div[class*="question"],
+div[class*="list"],
+div[class*="accordion"],
+li[class*="item"],
+li[class*="activity"] {
+  background-color: var(--color-bg-soft) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+div[class*="item"]:hover,
+div[class*="faq"]:hover,
+div[class*="question"]:hover,
+div[class*="accordion"]:hover {
+  border-color: var(--color-accent) !important;
+}
+
+/* Text inside these elements */
+div[class*="item"] h1, div[class*="item"] h2, div[class*="item"] h3,
+div[class*="item"] h4, div[class*="item"] p, div[class*="item"] span,
+div[class*="faq"] h1, div[class*="faq"] h2, div[class*="faq"] h3,
+div[class*="faq"] h4, div[class*="faq"] p, div[class*="faq"] span,
+div[class*="question"] h1, div[class*="question"] h2, div[class*="question"] h3,
+div[class*="question"] p, div[class*="question"] span,
+li[class*="item"] p, li[class*="item"] span {
+  color: var(--color-text) !important;
+}
+
+/* Plus/toggle icons in FAQ - sky blue */
+div[class*="faq"] svg,
+div[class*="question"] svg,
+div[class*="accordion"] svg {
+  color: var(--color-accent) !important;
+}
+
+/* Dividers/borders inside activity lists */
+li[class*="activity"] {
+  border-bottom: 1px solid var(--color-border) !important;
+  background-color: transparent !important;
+}
+
+/* ==========================================================
+   RECENT ACTIVITY LIST — exact class targeting
+========================================================== */
+.activity-list {
+  background-color: var(--color-bg-soft) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.activity-item {
+  background-color: var(--color-bg-soft) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  padding: 16px 20px !important;
+}
+
+.activity-item:last-child {
+  border-bottom: none !important;
+}
+
+.activity-item p {
+  color: var(--color-text) !important;
+}
+
+.activity-time {
+  color: var(--color-text-light) !important;
+}
+
+.activity-dot {
+  background-color: var(--color-accent) !important;
+  box-shadow: 0 0 8px var(--color-accent);
+}

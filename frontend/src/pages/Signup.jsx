@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signupUser } from "../services/api.js";
 import "../styles/Signup.css";
 
-// Signup page - lets a new user create an account.
+// Signup page - lets a new user create an account, wired to the
+// real backend signup endpoint via signupUser() in services/api.js.
 function Signup() {
   const navigate = useNavigate();
 
-  // Local state for all form fields
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,29 +15,40 @@ function Signup() {
     confirmPassword: "",
   });
 
-  // Holds a simple validation error message (e.g. passwords don't match)
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Basic client-side validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match. Please try again.");
       return;
     }
 
-    // TODO: Connect this to your real signup API (see src/services/api.js)
-    console.log("Signup form submitted:", formData);
+    setIsSubmitting(true);
 
-    // Redirect to dashboard after "signing up"
-    navigate("/dashboard");
+    try {
+      await signupUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate("/dashboard");
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        "Signup failed. Please try again.";
+      setError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -46,7 +58,6 @@ function Signup() {
         <p className="auth-subtitle">Start designing AI-powered posters today.</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Name */}
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
             <input
@@ -60,7 +71,6 @@ function Signup() {
             />
           </div>
 
-          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -74,7 +84,6 @@ function Signup() {
             />
           </div>
 
-          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -88,7 +97,6 @@ function Signup() {
             />
           </div>
 
-          {/* Confirm Password */}
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
@@ -102,12 +110,10 @@ function Signup() {
             />
           </div>
 
-          {/* Validation error message */}
           {error && <p className="auth-error">{error}</p>}
 
-          {/* Submit */}
-          <button type="submit" className="btn-primary auth-submit">
-            Sign Up
+          <button type="submit" className="btn-primary auth-submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 

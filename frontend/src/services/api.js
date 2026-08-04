@@ -1,46 +1,40 @@
 // ==========================================================
-// API SERVICE (placeholder)
+// API SERVICE
 // ==========================================================
-// This file is where you would normally set up calls to your
-// real backend (e.g. using fetch or axios). For now, these are
-// simple placeholder functions so the frontend structure is ready
-// to be connected to a backend later.
-
 import axios from "axios";
-const BASE_URL = "http://localhost:5000/api"; // TODO: replace with your real API URL
+const BASE_URL = "http://localhost:5000/api";
 
-// Example: log a user in
+// Log a user in - sends credentials to the backend and stores
+// the returned JWT so future requests can be authenticated.
 export async function loginUser(credentials) {
-  // Replace this with a real fetch() call to your backend, e.g.:
-  // const res = await fetch(`${BASE_URL}/auth/login`, {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(credentials),
-  // });
-  // return res.json();
+  const response = await axios.post(`${BASE_URL}/auth/login`, credentials);
 
-  console.log("loginUser called with:", credentials);
-  return { success: true };
+  if (response.data?.token) {
+    localStorage.setItem("token", response.data.token);
+  }
+
+  return response.data;
 }
 
-// Example: register a new user
+// Register a new user.
 export async function signupUser(userData) {
-  console.log("signupUser called with:", userData);
-  return { success: true };
+  const response = await axios.post(`${BASE_URL}/auth/signup`, userData);
+
+  if (response.data?.token) {
+    localStorage.setItem("token", response.data.token);
+  }
+
+  return response.data;
 }
 
-// Example: send poster details to an AI generation endpoint
+// Send poster details to the AI generation endpoint.
 export async function generatePoster(posterData) {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/posters/generate`,
-      {
-        prompt: posterData.description
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/posters/generate`, {
+      prompt: posterData.description,
+    });
 
     return response.data;
-
   } catch (error) {
     console.error(error);
     throw error;

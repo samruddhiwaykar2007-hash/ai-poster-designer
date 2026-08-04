@@ -1,70 +1,78 @@
 /* ==========================================================
-   LOGIN PAGE STYLES
-   (Also shared by Signup - both use ".auth-page" / ".auth-card")
+   AUTH PAGE (Login)
 ========================================================== */
 .auth-page {
-  min-height: 85vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-soft);
-  padding: 60px 20px;
+  padding: 140px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-page::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: var(--gradient-primary);
+  filter: blur(120px);
+  opacity: 0.25;
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  z-index: 0;
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 440px;
-  background: #fff;
-  border-radius: var(--radius-lg);
+  max-width: 420px;
   padding: 40px 36px;
+  border-radius: var(--radius-xl);
+  background: rgba(24, 24, 27, 0.7);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-lg);
 }
 
 .auth-title {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin-bottom: 8px;
   text-align: center;
 }
 
 .auth-subtitle {
-  text-align: center;
   color: var(--color-text-light);
-  margin-bottom: 30px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  text-align: center;
+  margin-bottom: 32px;
 }
 
-.auth-form .form-group {
-  margin-bottom: 20px;
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.auth-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.auth-form input {
-  width: 100%;
-  padding: 13px 16px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--color-border);
-  font-size: 0.95rem;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.auth-form input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
 }
 
 .auth-options {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .checkbox-label {
@@ -77,22 +85,31 @@
 
 .checkbox-label input {
   width: auto;
-  accent-color: var(--color-primary);
 }
 
 .forgot-link {
-  color: var(--color-primary);
-  font-weight: 600;
-  transition: opacity var(--transition-fast);
+  color: var(--color-sky);
+  font-weight: 500;
 }
 
 .forgot-link:hover {
-  opacity: 0.75;
+  text-decoration: underline;
 }
 
 .auth-submit {
   width: 100%;
-  text-align: center;
+  padding: 14px;
+  font-size: 1rem;
+  margin-top: 4px;
+}
+
+.auth-error {
+  font-size: 0.85rem;
+  color: var(--color-pink);
+  background: rgba(236, 72, 153, 0.1);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
 }
 
 .auth-footer-text {
@@ -103,11 +120,14 @@
 }
 
 .auth-footer-text a {
-  color: var(--color-primary);
+  color: var(--color-sky);
   font-weight: 600;
 }
 
-/* Responsive */
+.auth-footer-text a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
   .auth-card {
     padding: 32px 24px;

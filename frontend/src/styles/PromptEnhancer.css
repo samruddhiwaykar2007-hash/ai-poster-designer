@@ -1,0 +1,166 @@
+/* ==========================================================
+   PROMPT ENHANCER (guided questions + mood picker + Inspire Me)
+========================================================== */
+.prompt-enhancer {
+  padding: 32px;
+  width: 100%;
+}
+
+.pe-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.pe-icon {
+  font-size: 1.3rem;
+}
+
+.pe-header h3 {
+  font-size: 1.15rem;
+}
+
+/* ================= QUESTIONS ================= */
+.pe-question {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pe-question label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.pe-input:focus {
+  border-color: var(--color-pink);
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+}
+
+/* ================= MOOD PICKER ================= */
+.pe-mood-picker {
+  margin-bottom: 20px;
+}
+
+.pe-mood-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.pe-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.pe-mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: var(--transition-medium);
+}
+
+.pe-mood-emoji {
+  font-size: 1.2rem;
+}
+
+.pe-mood-btn:hover {
+  border-color: var(--color-pink);
+  transform: translateY(-2px);
+}
+
+.pe-mood-btn.active {
+  background: rgba(236, 72, 153, 0.15);
+  border-color: var(--color-pink);
+  color: var(--color-text);
+  box-shadow: var(--glow-pink);
+}
+
+/* ================= ACTIONS ================= */
+.pe-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.pe-inspire-btn {
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  transition: var(--transition-medium);
+}
+
+.pe-inspire-btn:hover {
+  border-color: var(--color-pink);
+  box-shadow: var(--glow-pink);
+  transform: translateY(-2px);
+}
+
+/* ================= RESULT ================= */
+.pe-result {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: rgba(236, 72, 153, 0.08);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  animation: fadeIn 0.4s ease;
+}
+
+.pe-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.pe-improvement {
+  font-weight: 700;
+  color: var(--color-pink);
+}
+
+.pe-result-text {
+  font-size: 0.92rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 500px) {
+  .prompt-enhancer {
+    padding: 24px 20px;
+  }
+
+  .pe-mood-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

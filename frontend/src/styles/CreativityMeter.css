@@ -1,0 +1,67 @@
+/* ==========================================================
+   AI CREATIVITY METER
+========================================================== */
+.creativity-meter {
+  padding: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.cm-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.cm-icon {
+  font-size: 1.3rem;
+}
+
+.cm-header h3 {
+  font-size: 1.15rem;
+}
+
+.cm-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cm-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cm-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+.cm-bar-value {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cm-bar-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-bg-soft);
+  overflow: hidden;
+}
+
+.cm-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 500px) {
+  .creativity-meter {
+    padding: 24px 20px;
+  }
+}

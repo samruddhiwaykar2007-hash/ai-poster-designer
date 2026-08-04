@@ -1,47 +1,61 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import FeatureCard from "../components/FeatureCard.jsx";
+import AIPromptAssistant from "../components/AIPromptAssistant.jsx";
+import CreativityMeter from "../components/CreativityMeter.jsx";
+import PromptEnhancer from "../components/PromptEnhancer.jsx";
+import DesignInsights from "../components/DesignInsights.jsx";
 import "../styles/Home.css";
 
 // Home is the landing page of the app.
-// It contains: Hero, Features, How It Works, Testimonials, and FAQ sections.
+// It contains: Hero, Features, AI Tools Demo, How It Works,
+// Testimonials, and FAQ sections.
 function Home() {
-  // Data for the Features section - kept as an array so FeatureCard
-  // can be reused without repeating JSX for every feature.
   const features = [
     {
       icon: "⚡",
       title: "Instant Generation",
       description: "Describe your idea and get a professional poster in seconds using AI.",
+      accent: "sky",
+      bullets: ["Under 10 seconds", "No queue wait", "Multiple variants"],
     },
     {
       icon: "🎨",
       title: "Beautiful Templates",
       description: "Choose from a wide range of modern, ready-to-use design styles.",
+      accent: "purple",
+      bullets: ["50+ styles", "Trend-aware", "One-click apply"],
     },
     {
       icon: "🖌️",
       title: "Fully Customizable",
       description: "Adjust colours, fonts, layout and size to match your exact needs.",
+      accent: "pink",
+      bullets: ["Custom palettes", "Font control", "Flexible sizing"],
     },
     {
       icon: "📤",
       title: "Easy Export & Share",
       description: "Download in high resolution or share a link with a single click.",
+      accent: "cyan",
+      bullets: ["4K resolution", "Shareable links", "PNG & PDF"],
     },
     {
       icon: "🌍",
       title: "Multi-language Support",
       description: "Generate posters with text in multiple languages effortlessly.",
+      accent: "green",
+      bullets: ["12+ languages", "Auto script fix", "RTL support"],
     },
     {
       icon: "🔒",
       title: "Secure & Private",
       description: "Your designs and data are safely stored and never shared.",
+      accent: "warning",
+      bullets: ["Encrypted storage", "Private by default", "You own your data"],
     },
   ];
 
-  // Data for testimonials section
   const testimonials = [
     {
       name: "Ananya Sharma",
@@ -66,7 +80,6 @@ function Home() {
     },
   ];
 
-  // Data for FAQ section
   const faqs = [
     {
       question: "Do I need design experience to use this tool?",
@@ -90,12 +103,14 @@ function Home() {
     },
   ];
 
-  // State to track which FAQ item is currently open (accordion behaviour)
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-
   const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
+
+  // Shared prompt state - feeds all 4 AI feature components below,
+  // so typing once (or hitting "Inspire Me") updates everything together.
+  const [demoPrompt, setDemoPrompt] = useState("");
 
   return (
     <div className="home-page">
@@ -104,7 +119,7 @@ function Home() {
         <div className="container hero-container">
           <div className="hero-badge">🚀 Powered by Generative AI</div>
           <h1 className="hero-title">
-            Create Stunning Posters with <span className="highlight">AI</span> in Seconds
+            Create Stunning Posters with <span className="gradient-text">AI</span> in Seconds
           </h1>
           <p className="hero-subtitle">
             Turn your ideas into eye-catching, professional posters instantly. No design
@@ -118,7 +133,6 @@ function Home() {
           </div>
         </div>
 
-        {/* Decorative gradient blobs for visual flair */}
         <div className="hero-blob hero-blob-1"></div>
         <div className="hero-blob hero-blob-2"></div>
       </section>
@@ -137,8 +151,27 @@ function Home() {
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
+                accent={feature.accent}
+                bullets={feature.bullets}
               />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= AI TOOLS DEMO SECTION ================= */}
+      <section className="section ai-tools-section">
+        <div className="container">
+          <h2 className="section-title">Try Our AI Tools</h2>
+          <p className="section-subtitle">
+            Type a quick idea below and watch our AI assist you in real time.
+          </p>
+
+          <div className="ai-tools-grid">
+            <PromptEnhancer onPromptChange={setDemoPrompt} />
+            <AIPromptAssistant prompt={demoPrompt} onPromptChange={setDemoPrompt} />
+            <CreativityMeter prompt={demoPrompt} />
+            <DesignInsights prompt={demoPrompt} />
           </div>
         </div>
       </section>
@@ -147,22 +180,20 @@ function Home() {
       <section className="section how-it-works-section">
         <div className="container">
           <h2 className="section-title">How It Works</h2>
-          <p className="section-subtitle">
-            Three simple steps to your perfect poster.
-          </p>
+          <p className="section-subtitle">Three simple steps to your perfect poster.</p>
 
           <div className="steps-grid">
-            <div className="step-card">
+            <div className="step-card surface-card">
               <div className="step-number">1</div>
               <h3>Describe Your Idea</h3>
               <p>Tell us about your event, product, or campaign in a few words.</p>
             </div>
-            <div className="step-card">
+            <div className="step-card surface-card">
               <div className="step-number">2</div>
               <h3>AI Generates Designs</h3>
               <p>Our AI creates multiple poster options based on your description.</p>
             </div>
-            <div className="step-card">
+            <div className="step-card surface-card">
               <div className="step-number">3</div>
               <h3>Customize & Download</h3>
               <p>Fine-tune colours and layout, then download or share instantly.</p>
@@ -175,13 +206,11 @@ function Home() {
       <section className="section testimonials-section">
         <div className="container">
           <h2 className="section-title">Loved by Creators Everywhere</h2>
-          <p className="section-subtitle">
-            Don't just take our word for it — hear from our users.
-          </p>
+          <p className="section-subtitle">Don't just take our word for it — hear from our users.</p>
 
           <div className="testimonials-grid">
             {testimonials.map((t, index) => (
-              <div className="testimonial-card" key={index}>
+              <div className="testimonial-card surface-card" key={index}>
                 <p className="testimonial-quote">"{t.quote}"</p>
                 <div className="testimonial-author">
                   <span className="testimonial-avatar">{t.avatar}</span>
@@ -205,7 +234,7 @@ function Home() {
           <div className="faq-list">
             {faqs.map((faq, index) => (
               <div
-                className={`faq-item ${openFaqIndex === index ? "active" : ""}`}
+                className={`faq-item surface-card ${openFaqIndex === index ? "active" : ""}`}
                 key={index}
                 onClick={() => toggleFaq(index)}
               >

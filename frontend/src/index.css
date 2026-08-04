@@ -1,22 +1,45 @@
 /* ==========================================================
-   GLOBAL STYLES & CSS VARIABLES — DARK THEME
+   GLOBAL STYLES & CSS VARIABLES — DARK THEME (AI Startup Palette)
 ========================================================== */
 :root {
-  --color-primary: #7c6cff;
-  --color-secondary: #a78bfa;
-  --color-accent: #22d3ee;
-  --color-text: #f0f0f5;
-  --color-text-light: #a1a1b5;
-  --color-bg: #121218;
-  --color-bg-soft: #1a1a24;
-  --color-border: #2e2e3a;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  /* Backgrounds */
+  --color-bg: #09090b;
+  --color-bg-soft: #18181b;
+  --color-card: #111827;
+  --color-border: #27272a;
+
+  /* Accents */
+  --color-sky: #38bdf8;
+  --color-cyan: #22d3ee;
+  --color-purple: #6366f1;
+  --color-pink: #ec4899;
+  --color-green: #10b981;
+  --color-warning: #f59e0b;
+
+  /* Text */
+  --color-text: #f4f4f5;
+  --color-text-light: #a1a1aa;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-sky) 0%, var(--color-purple) 100%);
+  --gradient-pink: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);
+  --gradient-cyan: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-sky) 100%);
+  --gradient-soft: linear-gradient(180deg, var(--color-bg-soft) 0%, var(--color-bg) 100%);
+
+  /* Shadows & glow */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
+  --glow-sky: 0 0 24px rgba(56, 189, 248, 0.35);
+  --glow-purple: 0 0 24px rgba(99, 102, 241, 0.35);
+  --glow-pink: 0 0 24px rgba(236, 72, 153, 0.35);
+
+  /* Radius */
   --radius-md: 12px;
   --radius-lg: 20px;
-  --gradient-primary: linear-gradient(135deg, #7c6cff 0%, #22d3ee 100%);
-  --gradient-soft: linear-gradient(180deg, #1a1a24 0%, #15151d 100%);
+  --radius-xl: 28px;
+
+  /* Motion */
   --transition-fast: 0.2s ease;
   --transition-medium: 0.35s ease;
 }
@@ -36,12 +59,14 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: var(--color-text);
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -65,8 +90,39 @@ img {
   padding: 0 24px;
 }
 
+.section {
+  padding: 100px 0;
+}
+
 /* ==========================================================
-   GLOBAL BUTTON STYLES — SKY BLUE DEFAULT
+   GRADIENT TEXT UTILITY
+========================================================== */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-pink {
+  background: var(--gradient-pink);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ==========================================================
+   GLASSMORPHISM UTILITY
+========================================================== */
+.glass {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================
+   BUTTONS
 ========================================================== */
 button {
   font-family: inherit;
@@ -74,91 +130,97 @@ button {
   border: none;
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
-  background-color: var(--color-accent);
-  color: #0a0a0f;
   font-weight: 600;
-  padding: 10px 20px;
 }
 
-button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-/* Primary "call to action" buttons keep the gradient look */
 .btn-primary,
-.create-poster-btn,
-[class*="generate"],
-[class*="submit"],
-[class*="signup"] {
-  background: var(--gradient-primary) !important;
+a.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gradient-primary);
   color: #ffffff !important;
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-primary:hover,
-.create-poster-btn:hover,
-[class*="generate"]:hover,
-[class*="submit"]:hover,
-[class*="signup"]:hover {
-  box-shadow: var(--shadow-md);
-}
-
-/* ==========================================================
-   GLOBAL CARD / BOX OVERRIDE
-   Catches white cards anywhere: Home, Login, Dashboard, etc.
-========================================================== */
-div[class*="card"],
-div[class*="box"],
-div[class*="feature"],
-div[class*="panel"],
-div[class*="section"] {
-  background-color: var(--color-bg-soft) !important;
-  border: 1px solid var(--color-border) !important;
-  color: var(--color-text) !important;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 1rem;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-medium);
 }
 
-div[class*="card"]:hover,
-div[class*="box"]:hover,
-div[class*="feature"]:hover,
-div[class*="panel"]:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-accent) !important;
+.btn-primary:hover {
+  box-shadow: var(--glow-sky), var(--shadow-md);
   transform: translateY(-2px);
 }
 
-/* Keep text inside cards readable */
-div[class*="card"] h1, div[class*="card"] h2, div[class*="card"] h3,
-div[class*="card"] h4, div[class*="card"] p, div[class*="card"] span,
-div[class*="box"] h1, div[class*="box"] h2, div[class*="box"] h3,
-div[class*="box"] h4, div[class*="box"] p, div[class*="box"] span,
-div[class*="feature"] h1, div[class*="feature"] h2, div[class*="feature"] h3,
-div[class*="feature"] h4, div[class*="feature"] p, div[class*="feature"] span {
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
   color: var(--color-text) !important;
+  border: 1px solid var(--color-border);
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: var(--transition-medium);
 }
 
-/* Icon circles inside feature cards - sky blue tint background */
-div[class*="icon"] {
-  background-color: rgba(34, 211, 238, 0.15) !important;
+.btn-outline:hover {
+  border-color: var(--color-sky);
+  box-shadow: var(--glow-sky);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   REUSABLE CARD SURFACE (opt-in, no wildcards)
+   Any component that wants the standard card look adds
+   this class explicitly: className="surface-card"
+========================================================== */
+.surface-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-medium);
+}
+
+.surface-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-sky);
+  transform: translateY(-4px);
+}
+
+/* Accent variants — used for feature cards so each can differ */
+.accent-sky    { --accent-color: var(--color-sky); }
+.accent-cyan   { --accent-color: var(--color-cyan); }
+.accent-purple { --accent-color: var(--color-purple); }
+.accent-pink   { --accent-color: var(--color-pink); }
+.accent-green  { --accent-color: var(--color-green); }
+.accent-warning{ --accent-color: var(--color-warning); }
+
+.accent-sky:hover, .accent-cyan:hover, .accent-purple:hover,
+.accent-pink:hover, .accent-green:hover, .accent-warning:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 35%, transparent);
 }
 
 /* ==========================================================
    FORM INPUTS — dark theme (login/signup/poster form fields)
 ========================================================== */
 input, textarea, select {
-  background-color: var(--color-bg-soft);
+  background-color: var(--color-card);
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-family: inherit;
+  width: 100%;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--color-sky);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
 }
 
 input::placeholder, textarea::placeholder {
@@ -166,80 +228,46 @@ input::placeholder, textarea::placeholder {
 }
 
 /* ==========================================================
-   ADDITIONAL CATCH-ALL — activity items, FAQ boxes, list items
-========================================================== */
-div[class*="item"],
-div[class*="activity"],
-div[class*="faq"],
-div[class*="question"],
-div[class*="list"],
-div[class*="accordion"],
-li[class*="item"],
-li[class*="activity"] {
-  background-color: var(--color-bg-soft) !important;
-  color: var(--color-text) !important;
-  border: 1px solid var(--color-border) !important;
-}
-
-div[class*="item"]:hover,
-div[class*="faq"]:hover,
-div[class*="question"]:hover,
-div[class*="accordion"]:hover {
-  border-color: var(--color-accent) !important;
-}
-
-/* Text inside these elements */
-div[class*="item"] h1, div[class*="item"] h2, div[class*="item"] h3,
-div[class*="item"] h4, div[class*="item"] p, div[class*="item"] span,
-div[class*="faq"] h1, div[class*="faq"] h2, div[class*="faq"] h3,
-div[class*="faq"] h4, div[class*="faq"] p, div[class*="faq"] span,
-div[class*="question"] h1, div[class*="question"] h2, div[class*="question"] h3,
-div[class*="question"] p, div[class*="question"] span,
-li[class*="item"] p, li[class*="item"] span {
-  color: var(--color-text) !important;
-}
-
-/* Plus/toggle icons in FAQ - sky blue */
-div[class*="faq"] svg,
-div[class*="question"] svg,
-div[class*="accordion"] svg {
-  color: var(--color-accent) !important;
-}
-
-/* Dividers/borders inside activity lists */
-li[class*="activity"] {
-  border-bottom: 1px solid var(--color-border) !important;
-  background-color: transparent !important;
-}
-
-/* ==========================================================
-   RECENT ACTIVITY LIST — exact class targeting
+   RECENT ACTIVITY LIST (Dashboard) — explicit classes only
 ========================================================== */
 .activity-list {
-  background-color: var(--color-bg-soft) !important;
-  border: 1px solid var(--color-border) !important;
-  border-radius: var(--radius-lg) !important;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .activity-item {
-  background-color: var(--color-bg-soft) !important;
-  border-bottom: 1px solid var(--color-border) !important;
-  padding: 16px 20px !important;
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-border);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .activity-item:last-child {
-  border-bottom: none !important;
-}
-
-.activity-item p {
-  color: var(--color-text) !important;
+  border-bottom: none;
 }
 
 .activity-time {
-  color: var(--color-text-light) !important;
+  color: var(--color-text-light);
+  font-size: 0.85rem;
 }
 
 .activity-dot {
-  background-color: var(--color-accent) !important;
-  box-shadow: 0 0 8px var(--color-accent);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-sky);
+  box-shadow: 0 0 8px var(--color-sky);
+  flex-shrink: 0;
+}
+
+/* ==========================================================
+   RESPONSIVE BASE
+========================================================== */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
 }

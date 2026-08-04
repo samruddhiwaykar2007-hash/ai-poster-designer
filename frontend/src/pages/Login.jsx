@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/api.js";
 import "../styles/Login.css";
 
-// Login page - a modern authentication form.
+// Login page - a modern authentication form, wired to the real
+// backend login endpoint via loginUser() in services/api.js.
 function Login() {
   const navigate = useNavigate();
 
-  // Local state for form fields
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
 
-  // Handles changes for both text inputs and the checkbox
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -22,14 +25,25 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setIsSubmitting(true);
 
-    // TODO: Connect this to your real authentication API (see src/services/api.js)
-    console.log("Login form submitted:", formData);
-
-    // For now, just redirect to the dashboard after "logging in"
-    navigate("/dashboard");
+    try {
+      await loginUser({
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate("/dashboard");
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        "Login failed. Please check your email and password.";
+      setError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -39,7 +53,6 @@ function Login() {
         <p className="auth-subtitle">Log in to continue creating amazing posters.</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -53,7 +66,6 @@ function Login() {
             />
           </div>
 
-          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -67,7 +79,6 @@ function Login() {
             />
           </div>
 
-          {/* Remember me + Forgot password */}
           <div className="auth-options">
             <label className="checkbox-label">
               <input
@@ -83,9 +94,10 @@ function Login() {
             </Link>
           </div>
 
-          {/* Submit */}
-          <button type="submit" className="btn-primary auth-submit">
-            Login
+          {error && <p className="auth-error">{error}</p>}
+
+          <button type="submit" className="btn-primary auth-submit" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
 

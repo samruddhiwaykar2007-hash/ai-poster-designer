@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
-// PosterForm collects all the details needed to generate an AI poster:
-// title, description, category, size, and color theme.
-// The "onGenerate" prop is a callback passed from the parent (Dashboard)
-// so the parent can react when the user clicks "Generate".
+// Builds the final prompt actually sent to the AI, combining every
+// field the user filled in - not just the description. Previously
+// only "description" was sent, so category/size/theme were silently
+// ignored by the AI even though the user picked them.
+function buildFinalPrompt({ title, description, category, size, colorTheme }) {
+  const parts = [];
+
+  if (title.trim()) parts.push(title.trim());
+  if (description.trim()) parts.push(description.trim());
+  if (category) parts.push(`${category} category`);
+  if (colorTheme) parts.push(`${colorTheme} color theme`);
+  if (size) parts.push(`${size} layout`);
+
+  return parts.join(", ");
+}
+
+// Simple rule-based expansion for short descriptions - same style
+// as the homepage Prompt Enhancer, applied here to the real form.
+function enhanceDescription(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return trimmed;
+
+  return `${trimmed}, featuring bold modern typography, professional composition, high-quality visuals and eye-catching design`;
+}
+
 function PosterForm({ onGenerate }) {
-  // Local state for each form field
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -14,28 +34,37 @@ function PosterForm({ onGenerate }) {
     colorTheme: "Purple & Blue",
   });
 
-  // Generic change handler - updates the matching field in formData
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Called when the form is submitted
+  const handleEnhance = () => {
+    setFormData((prev) => ({
+      ...prev,
+      description: enhanceDescription(prev.description),
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // In a real app, this is where you'd call your backend/AI API.
-    // For now, we simply pass the form data up to the parent component.
     if (onGenerate) {
-      onGenerate(formData);
+      // Pass the combined prompt as the description field, so
+      // api.js (which only reads posterData.description) actually
+      // sends everything the user picked, not just the text box.
+      onGenerate({
+        ...formData,
+        description: finalPrompt,
+      });
     }
   };
+
+  const finalPrompt = useMemo(() => buildFinalPrompt(formData), [formData]);
 
   return (
     <form className="poster-form" onSubmit={handleSubmit}>
       <h3 className="form-heading">Create a New Poster</h3>
 
-      {/* Poster Title */}
       <div className="form-group">
         <label htmlFor="title">Poster Title</label>
         <input
@@ -49,9 +78,18 @@ function PosterForm({ onGenerate }) {
         />
       </div>
 
-      {/* Poster Description */}
       <div className="form-group">
-        <label htmlFor="description">Poster Description</label>
+        <div className="form-label-row">
+          <label htmlFor="description">Poster Description</label>
+          <button
+            type="button"
+            className="enhance-btn"
+            onClick={handleEnhance}
+            disabled={!formData.description.trim()}
+          >
+            ✨ Enhance with AI
+          </button>
+        </div>
         <textarea
           id="description"
           name="description"
@@ -63,16 +101,10 @@ function PosterForm({ onGenerate }) {
         ></textarea>
       </div>
 
-      {/* Category + Size side by side */}
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          >
+          <select id="category" name="category" value={formData.category} onChange={handleChange}>
             <option>Business</option>
             <option>Event</option>
             <option>Music</option>
@@ -84,12 +116,7 @@ function PosterForm({ onGenerate }) {
 
         <div className="form-group">
           <label htmlFor="size">Poster Size</label>
-          <select
-            id="size"
-            name="size"
-            value={formData.size}
-            onChange={handleChange}
-          >
+          <select id="size" name="size" value={formData.size} onChange={handleChange}>
             <option>A4 (Portrait)</option>
             <option>A3 (Portrait)</option>
             <option>Square (1:1)</option>
@@ -99,15 +126,9 @@ function PosterForm({ onGenerate }) {
         </div>
       </div>
 
-      {/* Color Theme */}
       <div className="form-group">
         <label htmlFor="colorTheme">Colour Theme</label>
-        <select
-          id="colorTheme"
-          name="colorTheme"
-          value={formData.colorTheme}
-          onChange={handleChange}
-        >
+        <select id="colorTheme" name="colorTheme" value={formData.colorTheme} onChange={handleChange}>
           <option>Purple & Blue</option>
           <option>Warm Sunset</option>
           <option>Minimal Black & White</option>
@@ -116,7 +137,14 @@ function PosterForm({ onGenerate }) {
         </select>
       </div>
 
-      {/* Generate Button */}
+      {/* Live preview of exactly what gets sent to the AI */}
+      {finalPrompt && (
+        <div className="prompt-preview">
+          <span className="prompt-preview-label">Final AI Prompt</span>
+          <p className="prompt-preview-text">{finalPrompt}</p>
+        </div>
+      )}
+
       <button type="submit" className="btn-primary generate-btn">
         ✨ Generate Poster
       </button>

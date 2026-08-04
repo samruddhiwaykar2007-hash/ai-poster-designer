@@ -1,0 +1,80 @@
+/* ==========================================================
+   AI PROMPT ASSISTANT
+========================================================== */
+.prompt-assistant {
+  padding: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.pa-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pa-icon {
+  font-size: 1.3rem;
+}
+
+.pa-header h3 {
+  font-size: 1.15rem;
+}
+
+.pa-input {
+  margin-bottom: 16px;
+}
+
+.pa-input:focus {
+  border-color: var(--color-purple);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.pa-label {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+  margin-bottom: 14px;
+}
+
+.pa-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pa-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  animation: fadeIn 0.3s ease;
+}
+
+.pa-check {
+  color: var(--color-purple);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .prompt-assistant {
+    padding: 24px 20px;
+  }
+}
